@@ -3,7 +3,7 @@ import { newGame, play, resign, aiMove, legalMoves, inCheck, kingSq, side } from
 const $ = id => document.getElementById(id);
 const GLYPH = { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' };
 let g = null, mode = null, humanColor = 'w', level = 2, undoStack = [], ws = null, you = null, online = { w: false, b: false }, sel = -1, flipped = false, thinking = false;
-const token = localStorage.chessToken || (localStorage.chessToken = crypto.randomUUID());
+const token = sessionStorage.chessToken || (sessionStorage.chessToken = crypto.randomUUID());
 const name = c => (c === 'w' ? 'White' : 'Black');
 
 function seg(id, cb) {
