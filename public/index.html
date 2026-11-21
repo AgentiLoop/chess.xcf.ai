@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chess — play online, vs computer or a friend · chess.xcf.ai</title>
+<meta name="description" content="Free online chess in the browser: play the computer at three levels, a friend on the same screen, or anyone online with a room link. Built by AgentiLoop Agent!.">
+<meta property="og:title" content="Chess · chess.xcf.ai">
+<meta property="og:description" content="Play chess online: vs computer, same screen or online multiplayer. Built by AgentiLoop Agent!.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♞</text></svg>">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/"><span class="logo">♞</span> Chess</a>
+  <span class="by">by <a href="https://agentiloop.ai/#games" target="_blank" rel="noopener">AgentiLoop Agent!</a></span>
+</header>
+
+<main id="lobby" class="card lobby">
+  <h1>Play Chess</h1>
+  <p class="lead">Full rules: castling, en passant, promotion, check, mate, stalemate and draws. Free, no sign-up.</p>
+  <div class="modes">
+    <section>
+      <h2>🤖 vs Computer</h2>
+      <div class="seg" id="color"><button data-v="w" class="on">Play White</button><button data-v="b">Play Black</button></div>
+      <div class="seg" id="level"><button data-v="1">Easy</button><button data-v="2" class="on">Medium</button><button data-v="3">Hard</button></div>
+      <button class="go" id="startAI">Start</button>
+    </section>
+    <section>
+      <h2>👥 Same screen</h2>
+      <p>Two players take turns on this device.</p>
+      <button class="go" id="startLocal">Start</button>
+    </section>
+    <section>
+      <h2>🌐 Online</h2>
+      <p>Create a room and send the link to a friend.</p>
+      <button class="go" id="startOnline">Create room</button>
+      <form id="joinForm"><input id="joinCode" maxlength="8" placeholder="Room code" autocomplete="off"><button>Join</button></form>
+    </section>
+  </div>
+</main>
+
+<main id="game" class="game" hidden>
+  <div class="boardWrap">
+    <div id="tagTop" class="tag"></div>
+    <div id="board" class="board"></div>
+    <div id="tagBottom" class="tag"></div>
+  </div>
+  <aside class="card side">
+    <div id="mode" class="mode"></div>
+    <div id="status" class="status"></div>
+    <div id="share" class="share" hidden>Invite link <input id="shareLink" readonly><button id="copy">Copy</button></div>
+    <label class="promo">Promote to <select id="promo"><option value="q">Queen</option><option value="r">Rook</option><option value="b">Bishop</option><option value="n">Knight</option></select></label>
+    <ol id="moves" class="moves"></ol>
+    <div class="btns">
+      <button id="undo">Undo</button>
+      <button id="flip">Flip</button>
+      <button id="resign">Resign</button>
+      <button id="again" hidden>New game</button>
+      <button id="lobbyBtn">Menu</button>
+    </div>
+  </aside>
+</main>
+
+<footer class="foot">Made with <a href="https://agentiloop.ai" target="_blank" rel="noopener">AgentiLoop Agent!</a> · <a href="https://github.com/AgentiLoop/chess.xcf.ai" target="_blank" rel="noopener">Source</a> · Also: <a href="https://go.xcf.ai">go.xcf.ai</a></footer>
+<script type="module" src="/app.js"></script>
+</body>
+</html>
