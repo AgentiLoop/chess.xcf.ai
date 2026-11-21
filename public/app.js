@@ -18,7 +18,11 @@ seg('level', v => level = +v);
 
 const show = () => {};
 let selMode = 'ai';
-seg('modeSel', v => { selMode = v; $('aiOpts').hidden = v !== 'ai'; $('onlineOpts').hidden = v !== 'online'; });
+seg('modeSel', v => {
+  selMode = v; $('aiOpts').hidden = v !== 'ai'; $('onlineOpts').hidden = v !== 'online';
+  $('newGame').textContent = v === 'online' ? 'New online room' : 'Start new game';
+  if (v === 'online' && mode !== 'online') $('newGame').click(); // picking Online makes the room + invite link right away
+});
 
 function start(m) {
   mode = m; g = newGame(); undoStack = []; you = null; sel = -1;
@@ -34,7 +38,11 @@ $('newGame').onclick = async () => {
   const { code } = await (await fetch('/api/room')).json(); joinRoom(code);
 };
 $('joinForm').onsubmit = e => { e.preventDefault(); const c = $('joinCode').value.trim().toUpperCase(); if (c) joinRoom(c); };
-$('copy').onclick = () => { navigator.clipboard.writeText($('shareLink').value); $('copy').textContent = 'Copied'; };
+$('copy').onclick = () => {
+  const v = $('shareLink').value;
+  if (!v) { $('copy').textContent = 'Pick Online'; return; }
+  navigator.clipboard.writeText(v); $('copy').textContent = 'Copied';
+};
 $('flip').onclick = () => { flipped = !flipped; render(); };
 
 function joinRoom(code) {
