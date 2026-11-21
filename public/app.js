@@ -16,25 +16,29 @@ function seg(id, cb) {
 seg('color', v => humanColor = v);
 seg('level', v => level = +v);
 
-const show = game => { $('lobby').hidden = game; $('game').hidden = !game; };
+const show = () => {};
+let selMode = 'ai';
+seg('modeSel', v => { selMode = v; $('aiOpts').hidden = v !== 'ai'; $('onlineOpts').hidden = v !== 'online'; });
 
 function start(m) {
   mode = m; g = newGame(); undoStack = []; you = null; sel = -1;
   flipped = m === 'ai' && humanColor === 'b';
-  $('share').hidden = true;
+  if (ws) { const w = ws; ws = null; w.close(); history.replaceState(null, '', '/'); }
+  $('shareLink').value = ''; $('copy').textContent = 'Copy';
   $('mode').textContent = m === 'ai' ? `vs Computer · ${['', 'Easy', 'Medium', 'Hard'][level]} · you play ${name(humanColor)}` : 'Same screen · 2 players';
   show(true); render();
   if (m === 'ai' && humanColor === 'b') computer();
 }
-$('startAI').onclick = () => start('ai');
-$('startLocal').onclick = () => start('local');
-$('startOnline').onclick = async () => { const { code } = await (await fetch('/api/room')).json(); joinRoom(code); };
+$('newGame').onclick = async () => {
+  if (selMode !== 'online') return start(selMode);
+  const { code } = await (await fetch('/api/room')).json(); joinRoom(code);
+};
 $('joinForm').onsubmit = e => { e.preventDefault(); const c = $('joinCode').value.trim().toUpperCase(); if (c) joinRoom(c); };
-$('lobbyBtn').onclick = () => { const w = ws; ws = null; if (w) w.close(); history.replaceState(null, '', '/'); show(false); };
 $('copy').onclick = () => { navigator.clipboard.writeText($('shareLink').value); $('copy').textContent = 'Copied'; };
 $('flip').onclick = () => { flipped = !flipped; render(); };
 
 function joinRoom(code) {
+  if (ws) { const w = ws; ws = null; w.close(); }
   mode = 'online'; g = null; sel = -1;
   history.replaceState(null, '', '/r/' + code);
   $('shareLink').value = location.origin + '/r/' + code; $('share').hidden = false; $('copy').textContent = 'Copy';
@@ -52,7 +56,8 @@ function joinRoom(code) {
   ws.onclose = () => { if (mode === 'online' && ws) setStatus('Disconnected — reload to reconnect', true); };
 }
 const r = location.pathname.match(/^\/r\/([A-Z0-9]{4,8})$/);
-if (r) joinRoom(r[1]);
+if (r) { joinRoom(r[1]); for (const b of $('modeSel').children) b.classList.toggle('on', b.dataset.v === 'online'); selMode = 'online'; $('aiOpts').hidden = true; $('onlineOpts').hidden = false; }
+else start('ai');
 
 function canMove() {
   if (!g || g.over || thinking) return false;
@@ -89,7 +94,8 @@ $('undo').onclick = () => {
 };
 $('again').onclick = () => (mode === 'online' ? ws.send(JSON.stringify({ type: 'rematch' })) : start(mode));
 
-function setStatus(t, err) { const s = $('status'); s.textContent = t; s.classList.toggle('err', !!err); }
+function setTurnDot() { const d = $('turnDot'); if (d && g) d.className = 'turn-dot ' + (g.over ? 'over' : g.turn); }
+function setStatus(t, err) { setTurnDot(); const s = $('status'); s.textContent = t; s.classList.toggle('err', !!err); }
 
 function render() {
   if (!g) return;

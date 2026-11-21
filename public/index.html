@@ -16,49 +16,37 @@
   <span class="by">by <a href="https://agentiloop.ai/#games" target="_blank" rel="noopener">AgentiLoop Agent!</a></span>
 </header>
 
-<main id="lobby" class="card lobby">
-  <h1>Play Chess</h1>
-  <p class="lead">Full rules: castling, en passant, promotion, check, mate, stalemate and draws. Free, no sign-up.</p>
-  <div class="modes">
-    <section>
-      <h2>🤖 vs Computer</h2>
-      <div class="seg" id="color"><button data-v="w" class="on">Play White</button><button data-v="b">Play Black</button></div>
-      <div class="seg" id="level"><button data-v="1">Easy</button><button data-v="2" class="on">Medium</button><button data-v="3">Hard</button></div>
-      <button class="go" id="startAI">Start</button>
-    </section>
-    <section>
-      <h2>👥 Same screen</h2>
-      <p>Two players take turns on this device.</p>
-      <button class="go" id="startLocal">Start</button>
-    </section>
-    <section>
-      <h2>🌐 Online</h2>
-      <p>Create a room and send the link to a friend.</p>
-      <button class="go" id="startOnline">Create room</button>
-      <form id="joinForm"><input id="joinCode" maxlength="8" placeholder="Room code" autocomplete="off"><button>Join</button></form>
-    </section>
-  </div>
-</main>
-
-<main id="game" class="game" hidden>
+<main id="game" class="game">
   <div class="boardWrap">
     <div id="tagTop" class="tag"></div>
     <div id="board" class="board"></div>
     <div id="tagBottom" class="tag"></div>
   </div>
   <aside class="card side">
-    <div id="mode" class="mode"></div>
-    <div id="status" class="status"></div>
-    <div id="share" class="share" hidden>Invite link <input id="shareLink" readonly><button id="copy">Copy</button></div>
-    <label class="promo">Promote to <select id="promo"><option value="q">Queen</option><option value="r">Rook</option><option value="b">Bishop</option><option value="n">Knight</option></select></label>
-    <ol id="moves" class="moves"></ol>
-    <div class="btns">
-      <button id="undo">Undo</button>
-      <button id="flip">Flip</button>
-      <button id="resign">Resign</button>
-      <button id="again" hidden>New game</button>
-      <button id="lobbyBtn">Menu</button>
-    </div>
+    <section class="panel-now">
+      <div class="turn"><span id="turnDot" class="turn-dot w"></span><div><div id="status" class="status"></div><div id="mode" class="mode"></div></div></div>
+      <div class="moves-head"><span>Moves</span><label class="promo">Promote <select id="promo"><option value="q">♛ Queen</option><option value="r">♜ Rook</option><option value="b">♝ Bishop</option><option value="n">♞ Knight</option></select></label></div>
+      <ol id="moves" class="moves"></ol>
+      <div class="btns">
+        <button id="undo" title="Undo"><span>↶</span>Undo</button>
+        <button id="flip" title="Flip board"><span>⇅</span>Flip</button>
+        <button id="resign" class="danger" title="Resign"><span>⚑</span>Resign</button>
+        <button id="again" hidden><span>↻</span>Rematch</button>
+      </div>
+    </section>
+    <section class="panel-new">
+      <div class="panel-label">New game</div>
+      <div class="tabs" id="modeSel"><button data-v="ai" class="on"><span>🤖</span>Computer</button><button data-v="local"><span>👥</span>2 Players</button><button data-v="online"><span>🌐</span>Online</button></div>
+      <div id="aiOpts" class="opts">
+        <div class="seg" id="color"><button data-v="w" class="on">♔ White</button><button data-v="b">♚ Black</button></div>
+        <div class="seg" id="level"><button data-v="1">Easy</button><button data-v="2" class="on">Medium</button><button data-v="3">Hard</button></div>
+      </div>
+      <div id="onlineOpts" class="opts" hidden>
+        <form id="joinForm"><input id="joinCode" maxlength="8" placeholder="Have a room code?" autocomplete="off"><button>Join</button></form>
+      </div>
+      <button class="go" id="newGame">Start new game</button>
+      <div class="share" id="share"><span class="share-ico">🔗</span><input id="shareLink" readonly placeholder="Invite link appears for online games"><button id="copy">Copy</button></div>
+    </section>
   </aside>
 </main>
 
