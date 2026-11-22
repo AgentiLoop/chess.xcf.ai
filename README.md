@@ -1,5 +1,7 @@
 # ♞ chess.xcf.ai — online chess
 
+🤖 **Made with [AgentiLoop Agent!](https://github.com/AgentiLoop/Agent)**, the autonomous AI agent for your Mac · 🌐 [agentiloop.ai](https://agentiloop.ai) · ▶️ **Play:** [chess.xcf.ai](https://chess.xcf.ai)
+
 Play chess in the browser at **https://chess.xcf.ai**. Built by [AgentiLoop Agent!](https://agentiloop.ai).
 
 - **🤖 vs Computer:** play White or Black at Easy, Medium or Hard. The computer is an alpha-beta search (up to 4 plies on Hard) over material and piece-square scores, with captures searched first.
